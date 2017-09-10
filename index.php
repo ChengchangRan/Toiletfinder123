@@ -14,7 +14,7 @@
 
     <title>Melbourne Toilet Finder</title>
     
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="main.css" rel="stylesheet" type="text/css" />
     <!-- Use fontawesome-->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
@@ -24,7 +24,7 @@
 
 	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyABisuaAu1IDWBncs_GHZ5MdLVsfchAVxY&language=en"></script>
 
-	<script src="js/script.js"></script>
+	<script src="script.js"></script>
 
 
 
