@@ -18,10 +18,72 @@ function initialize()
     { 
         zoom: 14,
         center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+		mapTypeControl: true,
+          mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: google.maps.ControlPosition.TOP_RIGHT
+          }
     };
     map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 
+	var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
     //Public data kept in .kml files in google cloud storage
    layers [0] = new google.maps.KmlLayer('https://storage.googleapis.com/toiletfinder123.appspot.com/Public_toilets.kml',
     {preserveViewport: false, suppressInfoWindows: false});
@@ -46,29 +108,6 @@ function toggleLayer(i)
   }
 }
 
-//Clears the map on a new search 
-function clearMap() 
-{
-    if (markers) {
-        for (i in markers) {
-            markers[i].setMap(null);
-        }
-        markers = [];
-        infos = [];
-    }
-}
-
-//Clears the info windows when a new marker is clicked
-function clearInfos() 
-{
-    if (infos) {
-        for (i in infos) {
-            if (infos[i].getMap()) {
-                infos[i].close();
-            }
-        }
-    }
-}
 
 //Function for the locateMe button
 function locateMe() 
@@ -94,66 +133,6 @@ function locateMe()
     handleNoGeolocation(false);
   }
 }
-
-//Function for the searchPlaces button
-function searchPlaces() 
-{
-    //Takes all variables
-    var type = document.getElementById('map_type').value;
-    var radius = document.getElementById('map_radius').value;
-    var pos = new google.maps.LatLng(lat, lng);
-    //Requests google places using the above variables
-    var request = {
-        location: pos,
-        radius: radius,
-        types: [type]
-    };
-    //Request sent
-    service = new google.maps.places.PlacesService(map);
-    service.search(request, createMarkers);
-}
-
-//Create markers from the searchPlaces() function
-function createMarkers(results, status) 
-{
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-        //If results are found the map is cleared
-        clearMap();
-        //And the new markers are generated
-        for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-        }
-    } else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-        alert('Sorry, Nothing found in this area');
-    }
-}
-
-
-//Info window for single markers
-function createMarker(place) 
-{
-    var mark = new google.maps.Marker({
-        position: place.geometry.location,
-        map: map,
-        title: place.name
-    });
-    markers.push(mark);
-
-    //Info Window section
-    var infowindow = new google.maps.InfoWindow({
-        content: '<strong>Name: </strong>' + place.name  + '<br /><strong>Address:</strong> ' + place.vicinity + '<br /><strong>Rating:</strong> ' + place.rating  + '<br /><strong>Price Level:</strong> ' + place.price_level
-    });
-
-    //Event handler for click
-    google.maps.event.addListener(mark, 'click', function() {
-        clearInfos();
-        infowindow.open(map,mark);
-    });
-    infos.push(infowindow);
-}
-
-
 //Menu icon scripts below
 function checkNav() 
 {
@@ -165,7 +144,6 @@ function checkNav()
     openNav();
   }
 }
-
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
 }
@@ -174,7 +152,34 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
+function popupOpenClose() {
+	
+	/* Add div inside popup for layout if one doesn't exist */
+	if ($(".wrapper").length == 0){
+		$(popup).wrapInner("<div class='wrapper'></div>");
+	}
+	
+	/* Open popup */
+	$(popup).show();
+
+	/* Close popup if user clicks on background */
+	$(popup).click(function(e) {
+		if ( e.target == this ) {
+			if ($(popup).is(':visible')) {
+				$(popup).hide();
+			}
+		}
+	});
+
+	/* Close popup and remove errors if user clicks on cancel or close buttons */
+	$(popup).find("button[name=close]").on("click", function() {
+		if ($(".formElementError").is(':visible')) {
+			$(".formElementError").remove();
+		}
+		$(popup).hide();
+	});
+}
+
 //Begin initialize() function on page load
 google.maps.event.addDomListener(window, 'load', initialize);
 
-// JavaScript Document

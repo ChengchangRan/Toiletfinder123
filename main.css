@@ -6,11 +6,89 @@ body, html
     padding-top: 0;
     font-family: arial;
 }
+
+p.first-line {
+    float: left;
+    clear: both;
+    width: 96%
+}
+
+/* Custom fonts */
+@media only screen and (min-width: 720px) {
+
+    .header-modal {font-family: 'Noto Sans', sans-serif}
+
+    .modal-dialog .inner-dialog h2{font-family: 'Noto Sans', sans-serif}
+
+    .modal-dialog .inner-dialog p,
+	.footer-modal {font-family: 'Open Sans', sans-serif}
+
+}
+
+/**
+ * The buttons
+*/
+.button {
+	float: left;
+	margin: 0 0 0.5em 0;
+	color: #fff;
+	text-decoration: none;
+    font-size: 18px;
+    line-height: 1
+}
+
+.button:hover {text-decoration: underline}
+	
+
+.controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 250px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+      #target {
+        width: 345px;
+      }
 /*Map size*/
 #map_canvas 
 {
     height: 100%;
-   width: 96.5%;
+   width: 97.5%;
     position:relative;
 	left:40px;
 
@@ -36,7 +114,7 @@ font-size:20px;
 
 
 .main-menu:hover,nav.main-menu.expanded {
-width:180px;
+width:160px;
 overflow:visible;
 }
 
@@ -63,7 +141,7 @@ margin:7px 0;
 .main-menu li {
 position:relative;
 display:block;
-width:180px;
+width:160px;
 }
 
 .main-menu li>a {
@@ -118,7 +196,7 @@ overflow:visible;
 }
 
 a:hover,a:focus {
-text-decoration:none;
+	text-decoration: underline;
 }
 
 nav {
@@ -136,7 +214,7 @@ padding:0;
 }
 .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
 color:#fff;
-background-color:#5fa2db;
+background-color:#0288d1;
 }
 .area {
 float: left;
@@ -149,4 +227,8 @@ height: 100%;
   font-style: normal;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+
+@media screen and (max-width: 480px) {
+#main-menu {display: none;}
 }
