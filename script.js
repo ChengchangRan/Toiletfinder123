@@ -22,7 +22,7 @@ function initialize()
 		mapTypeControl: true,
           mapTypeControlOptions: {
               style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-              position: google.maps.ControlPosition.TOP_RIGHT
+              position: google.maps.ControlPosition.LEFT_BOTTOM
           }
     };
     map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);

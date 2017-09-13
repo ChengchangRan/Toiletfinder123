@@ -8,7 +8,7 @@
 
   <header>
 
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta charset="utf-8">
 
@@ -19,16 +19,19 @@
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300">
+    <link href="//cdn.muicss.com/mui-latest/css/mui.min.css" rel="stylesheet" type="text/css" />
     
     <link rel="stylesheet" href="css/modal-box.min.css" media="screen">
 <link rel="stylesheet" href="css/custom.min.css" media="screen">
-
+<script src="//cdn.muicss.com/mui-latest/js/mui.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 
 	<!-- Google maps API/Google places API-->
 
 	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyABisuaAu1IDWBncs_GHZ5MdLVsfchAVxY&language=en"></script>
 
 	<script src="js/script.js"></script>
+	<script src="js/sidescript.js"></script>
 <script asyn src="https://ajax.googleapis.com/ajax/libs/webfont/1.6/webfont.js"></script>
 <script>
 /*! Webfontloader */
@@ -53,70 +56,66 @@ WebFont.load({
   </header>
 
   <body>
-<div class="area">
-<!-- Google Maps canvas -->
-<input id="pac-input" class="controls" type="text" placeholder="Search...">
-	<div id="map_canvas"></div>      
-           </div>
-           <nav class="main-menu">
-            <ul>
-                <li>
-                    <a href="index.php" class="button">
-                        <i class="fa fa-home fa-2x"></i>
-                        <span class="nav-text">
-                            Home
-                        </span>
-                    </a>
-                  
-                </li>
-                <li class="has-subnav">
-                    <a href="#" class="button" onclick="locateMe();" return false;>
+          <div id="sidedrawer" class="mui--no-user-select">
+      <div id="sidedrawer-brand" class="mui--appbar-line-height">
+        <span class="mui--text-title">ToiletFinder</span>
+      </div>
+      <div class="mui-divider"></div>
+      <ul>
+        <li>
+          <a href="#" onclick="locateMe();" return false;><strong>
                         <i class="fa fa-map-marker fa-2x"></i>
                         <span class="nav-text">
                             Locate me
-                        </span>
+			  </span></strong>
                     </a>
-                    
-                </li>
-                <li class="has-subnav">
-                    <a href="#" class="button" onclick="toggleLayer(0);">
+        </li>
+        <li>
+          <a href="#" onclick="toggleLayer(0);"><strong>
                        <i class="fa fa-search fa-2x"></i>
                         <span class="nav-text">
                             Find toilet
-                        </span>
+			  </span></strong>
                     </a>
-                    
-                </li>
-                <li class="has-subnav">
-                    <a href="#" class="button">
+        </li>
+        <li>
+          <a href="#"><strong>
                        <i class="fa fa-plus-square fa-2x"></i>
                         <span class="nav-text">
                            Add toilet
-                        </span>
+			  </span></strong>
                     </a>
-                   
-                </li>   
-                <li>
-                    <a href="#openModal" class="button" id="link1">
+        </li>
+        <li>
+          <a href="#openModal"id="link1">
+                      <strong>
                        <i class="fa fa-info fa-2x"></i>
                         <span class="nav-text">
                             About
-                        </span>
+						  </span></strong>
                     </a>
-                </li>
-            </ul>
-            
-        </nav>
+        </li>
+      </ul>
+    </div>
+    <header id="header">
+      <div class="mui-appbar mui--appbar-line-height">
+        <div class="mui-container-fluid">
+          <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
+          <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
+          <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">ToiletFinder</span>
+        </div>
+      </div>
+    </header>
+	  <div id="content-wrapper">
+	  	<!-- Google Maps canvas -->
+<input id="pac-input" class="controls" type="text" placeholder="Search...">
+	<div id="map_canvas"></div>  	
+	  </div> 
         <div tabindex="0" role="dialog" aria-labelled-by="openModal" aria-haspopup="true" class="modal-dialog dialog" id="openModal">
 
 	<div class="modal">
 
 		<a href="#close" title="Close" class="close push__left no__select bounceInUp" id="close-modal">×</a>
-
-		<div class="header-modal no__select">
-			<h1><strong class="static">©</strong> ToiletFinder</h1> 
-		</div>
-
 		<div class="inner-dialog">
 
 
