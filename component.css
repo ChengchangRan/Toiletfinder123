@@ -1,16 +1,36 @@
 /* General styles for all menus */
 .cbp-spmenu {
-	background: #47a3da;
+	background-color: whitesmoke;
 	position: fixed;
+	width:100px;
+	float：right；
+	color: dodgerblue;
+	text-align: center;
+	padding: 2;
 }
 
-.cbp-spmenu h3 {
-	color: #afdefa;
-	font-size: 1.9em;
-	padding: 20px;
-	margin: 0;
-	font-weight: 300;
-	background: #0d77b6;
+.cbp-spmenu h2,h3,h4{
+	padding: 2 2 2 2;
+	font-size:18px;
+	color: #2B2829;
+	font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 500;
+	
+	background-color: whitesmoke;
+	vertical-align:middle; 
+	text-align:center;
+	word-wrap:break-word;
+
+}
+.cbp-spmenu label{
+	font-size:18px;
+	color: #2B2829;
+	font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 500;
+	word-wrap:break-word;
+	align-content: center;
 }
 
 .cbp-spmenu a {
@@ -18,21 +38,17 @@
 	color: #fff;
 	font-size: 1.1em;
 	font-weight: 300;
+	text-indent: 5em;
+	color: dodgerblue;
+	
 }
 
-.cbp-spmenu a:hover {
-	background: #258ecd;
-}
 
-.cbp-spmenu a:active {
-	background: #afdefa;
-	color: #47a3da;
-}
 
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-	width: 240px;
+	width: 100px;
 	height: 100%;
 	top: 0;
 	z-index: 1000;
@@ -148,7 +164,7 @@
 
 	.cbp-spmenu-vertical {
 		font-size: 90%;
-		width: 190px;
+		width: 100px;
 	}
 
 	.cbp-spmenu-left,
@@ -157,10 +173,10 @@
 	}
 
 	.cbp-spmenu-right {
-		right: -190px;
+		right: -100px;
 	}
 
 	.cbp-spmenu-push-toright {
-		left: 190px;
+		left: 100px;
 	}
 }

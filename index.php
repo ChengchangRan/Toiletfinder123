@@ -3,7 +3,6 @@
 ?>
 
 <!DOCTYPE html>
-
 <html>
 
   <header>
@@ -160,26 +159,32 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 
 
 <!--add toilet right list -->
-        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu">
 			<h2>Add a Toilet</h2>
 			<div>
-                <form name="type" avtion="" method="get">
+                <form name="type" action="" method="get">
                     <h4>Type:</h4>
                     <label><input name="toiletType" type="radio" value="" />Indoor </label>
+                    <br>
                     <label><input name="toiletType" type="radio" value="" />Outdoor </label>
                 </form>  
                 <br/>
-                <form name="gender" avtion="" method="get">    
+                <form name="gender" action="" method="get">    
                     <h4>Gender:</h4>
                     <label><input name="toiletGender" type="radio" value="" />Male </label>
+                    <br>
                     <label><input name="toiletGender" type="radio" value="" />Female </label>
+                    <br>
                     <label><input name="toiletGender" type="radio" value="" />Both </label>
+                    <br>
                 </form>  
                 </br>
                 <form name="facilities" action="" method="get">   
                     <h4>Other Facilities:</h4>
                     <label><input name="toiletFacilities" type="checkbox" value="" />Baby </label>
+                    <br>
 					<label><input name="toiletFacilities" type="checkbox" value="" />Disabilities </label>
+               <br>
                 </form>
                 <br/>    
                 <form name="Description" action="" method="get">
@@ -189,17 +194,17 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
                 <br>
                 
                 <!-- add button -->      
-                      <input type="submit" on-click="add()" value="Add"/>           
-                			
+                      <input type="submit" on-click="add()" value="Add"/>  
 			</div>
 		</nav>
         
         <!-- script for add toilet right list-->
         <script src="classie.js"></script>
 		<script>
-			var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+			var menuRight = document.getElementById( 'cbp-spmenu' ),
 
 				showRight = document.getElementById( 'showRight' ),
+				
 
 				body = document.body;
 
@@ -208,6 +213,7 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 				classie.toggle( this, 'active' );
 				classie.toggle( menuRight, 'cbp-spmenu-open' );
 				disableOther( 'showRight' );
+				
 			};
 
 
