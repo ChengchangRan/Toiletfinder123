@@ -5,7 +5,7 @@ var infos = Array();
 var lat = -37.8136;
 var lng = 144.9631;
 var layers = [];
-
+var markerMe;
 
 //Initialize the google map canvas
 function initialize() 
@@ -123,7 +123,19 @@ function locateMe()
         position: pos,
         content: 'You are here!'
       });
-
+      // add marker    
+      if(typeof(markerMe)=="undefined"){
+    	  markerMe = new google.maps.Marker({
+    		  position: pos,
+    		  map: map,
+    		  title:"You are here!"
+    	  });
+    	  markerMe.setAnimation(google.maps.Animation.BOUNCE);
+      }else{
+    	  markerMe.setAnimation(google.maps.Animation.BOUNCE);
+    	  
+      }
+	    
       map.setCenter(pos);
     }, function() {
       handleNoGeolocation(true);
