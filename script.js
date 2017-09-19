@@ -6,6 +6,7 @@ var lat = -37.8136;
 var lng = 144.9631;
 var layers = [];
 var markerMe;
+var infowindow;
 
 //Initialize the google map canvas
 function initialize() 
@@ -86,7 +87,7 @@ function initialize()
         });
     //Public data kept in .kml files in google cloud storage
    layers [0] = new google.maps.KmlLayer('https://storage.googleapis.com/toiletfinder123.appspot.com/Public_toilets.kml',
-    {preserveViewport: false, suppressInfoWindows: false});
+    {preserveViewport: false, suppressInfoWindows: true});
   for (var i = 0; i < layers.length; i++) 
   {
           layers[i].setMap(null);
@@ -100,7 +101,26 @@ function toggleLayer(i)
 {
   if (layers[i].getMap() === null) 
   {
+    
     layers[i].setMap(map);
+    layers[i].addListener('click', function(kmlEvent){
+    	var text = kmlEvent.featureData.description;
+    	var contentString = '<div id="content">'+
+        '<h5 >'+text+'</h5>'+
+        '<div style="float:right">'+
+        '<a href="javascript:void(0);">Go here</a>'+
+        '</div>'+
+        '</div>';
+    	if (infowindow!=null) {
+    		infowindow.close();
+	}
+	infowindow = new google.maps.InfoWindow({
+	      content: contentString,
+	      disableAutoPan: true,
+	      position: kmlEvent.latLng,
+	 });
+	    infowindow.open(map, this);
+    });
   }
   else 
   {
