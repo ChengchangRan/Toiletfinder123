@@ -7,6 +7,9 @@ var lng = 144.9631;
 var layers = [];
 var markerMe;
 var infowindow;
+var locationMe = new google.maps.LatLng(lat,lng);
+var directionsService = new google.maps.DirectionsService;
+var directionsDisplay = new google.maps.DirectionsRenderer;
 
 //Initialize the google map canvas
 function initialize() 
@@ -108,7 +111,7 @@ function toggleLayer(i)
     	var contentString = '<div id="content">'+
         '<h5 >'+text+'</h5>'+
         '<div style="float:right">'+
-        '<a href="javascript:void(0);">Go here</a>'+
+        '<a href="javascript:go'+kmlEvent.latLng+';">Go here</a>'+
         '</div>'+
         '</div>';
     	if (infowindow!=null) {
@@ -128,6 +131,29 @@ function toggleLayer(i)
   }
 }
 
+function go(Lat,Lng){
+
+    directionsDisplay.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsDisplay,Lat,Lng);
+	
+}
+function calculateAndDisplayRoute(directionsService, directionsDisplay,Lat,Lng) {
+    directionsService.route({
+      origin: locationMe,
+      destination: new google.maps.LatLng(Lat,Lng),
+      travelMode: 'WALKING'
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+    	if (infowindow!=null) {
+    		infowindow.close();
+		}
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
 
 //Function for the locateMe button
 function locateMe() 
@@ -137,7 +163,7 @@ function locateMe()
       lat = position.coords.latitude;
       lng = position.coords.longitude;
       var pos = new google.maps.LatLng(lat, lng);
-
+      locationMe = pos;
       var infowindow = new google.maps.InfoWindow({
         map: map,
         position: pos,
