@@ -2,6 +2,9 @@ gcloud sql connect toilets --user=root
 
 use toiletsinfo
 
+drop database ...
+drop table ...
+
 
 CREATE TABLE `markers` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
