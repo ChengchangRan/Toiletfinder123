@@ -1,5 +1,5 @@
 <?php
 $username="root";
 $password="";
-$database="root-toiletsinfo";
+$database="toiletsinfo";
 ?>
