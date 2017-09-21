@@ -193,9 +193,13 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 				</form>
                 <br>
                 
-                <!-- add button -->      
-                      <input type="submit" on-click="add()" value="Add"/>  
-			</div>
+                <!-- add button -->   
+                <div class="buttons">
+                 <button class="raise">add</button>                      
+    			 <button id="closeRight" class="raise">Close</button>
+    			 </div>
+  </div>
+			
 		</nav>
         
         <!-- script for add toilet right list-->
@@ -203,20 +207,25 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 		<script>
 			var menuRight = document.getElementById( 'cbp-spmenu' ),
 
-				showRight = document.getElementById( 'showRight' ),
-				
+				showRight = document.getElementById( 'showRight' ),	
 
+				closeRight = document.getElementById( 'closeRight' ),	
 				body = document.body;
 
 
+			closeRight.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( menuRight, 'cbp-spmenu-open' );
+				disableOther( 'closeRight' );
+				
+			};
 			showRight.onclick = function() {
 				classie.toggle( this, 'active' );
 				classie.toggle( menuRight, 'cbp-spmenu-open' );
 				disableOther( 'showRight' );
 				
 			};
-
-
+			
 			function disableOther( button ) {
 		
 				if( button !== 'showRight' ) {
@@ -224,8 +233,16 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 				}
 				
 			}
+			
+			function disableOther( close ) {
+		
+				if( close !== 'closeRight' ) {
+					classie.toggle( closeRight, 'disabled' );
+				}
+				
+			}
 		</script>
-
+		
 
 
  </body>
