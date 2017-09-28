@@ -1,8 +1,56 @@
+<!DOCTYPE html>
+<!-- database using XML file -->
 <?php
+
+require("phpsqlajax_dbinfo.php");
+
+// Start XML file, create parent node
+
+$dom = new DOMDocument("1.0");
+$node = $dom->createElement("markers");
+$parnode = $dom->appendChild($node);
+
+// Opens a connection to a MySQL server
+
+$connection=mysql_connect ('35.188.198.174', $username, $password);
+if (!$connection) {  die('Not connected : ' . mysql_error());}
+
+// Set the active MySQL database
+
+$db_selected = mysql_select_db($database, $connection);
+if (!$db_selected) {
+  die ('Can\'t use db : ' . mysql_error());
+}
+
+// Select all the rows in the markers table
+
+$query = "SELECT * FROM markers WHERE 1";
+$result = mysql_query($query);
+if (!$result) {
+  die('Invalid query: ' . mysql_error());
+}
+
+header("Content-type: text/xml");
+
+// Iterate through the rows, adding XML nodes for each
+
+while ($row = @mysql_fetch_assoc($result)){
+  // Add to XML document node
+  $node = $dom->createElement("marker");
+  $newnode = $parnode->appendChild($node);
+  $newnode->setAttribute("type",$row['type']);
+  $newnode->setAttribute("gender", $row['gender']);
+  $newnode->setAttribute("baby", $row['baby']);
+  $newnode->setAttribute("disable", $row['disable']);
+  $newnode->setAttribute("lat", $row['lat']);
+  $newnode->setAttribute("lng", $row['lng']);
+  $newnode->setAttribute("description", $row['description']);
+}
+
+echo $dom->saveXML();
 
 ?>
 
-<!DOCTYPE html>
 <html>
 
   <header>
@@ -13,18 +61,19 @@
 
     <title>Melbourne Toilet Finder</title>
     
-    <link href="main.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
     <!-- Use fontawesome-->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
+    <link rel="shortcut icon" type="image/x-icon" href="//www.google.com/images/icons/product/sites-16.ico" />
     <!-- add toilet right list css-->
-    <link rel="stylesheet" type="text/css" href="component.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300">
     <link href="//cdn.muicss.com/mui-latest/css/mui.min.css" rel="stylesheet" type="text/css" />
     
-    <link rel="stylesheet" href="modal-box.min.css" media="screen">
-<link rel="stylesheet" href="custom.min.css" media="screen">
+    <link rel="stylesheet" href="css/modal-box.min.css" media="screen">
+<link rel="stylesheet" href="css/custom.min.css" media="screen">
 <script src="//cdn.muicss.com/mui-latest/js/mui.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 
@@ -32,12 +81,12 @@
 
 	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyABisuaAu1IDWBncs_GHZ5MdLVsfchAVxY&language=en"></script>
 
-	<script src="script.js"></script>
-	<script src="sidescript.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/sidescript.js"></script>
 	
 		
 	<!-- add toilet right list script -->
-	<script src="modernizr.custom.js"></script>
+	<script src="js/modernizr.custom.js"></script>
 	
 	
 <script asyn src="https://ajax.googleapis.com/ajax/libs/webfont/1.6/webfont.js"></script>
@@ -79,7 +128,7 @@ WebFont.load({
                     </a>
         </li>
         <li>
-          <a href="#" onclick="toggleLayer(0);"><strong>
+          <a href="#" id="showRight"><strong>
                        <i class="fa fa-search fa-2x"></i>
                         <span class="nav-text">
                             Find toilet
@@ -87,7 +136,7 @@ WebFont.load({
                     </a>
         </li>
         <li>
-          <a href="#" id="showRight"><strong>
+          <a href="#" ><strong>
                        <i class="fa fa-plus-square fa-2x"></i>
                         <span class="nav-text">
                            Add toilet
@@ -158,52 +207,41 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 </script>
 
 
-<!--add toilet right list -->
+<!--find toilet right list -->
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu">
-			<h2>Add a Toilet</h2>
+			<h2>Find Toilet</h2>
 			<div>
                 <form name="type" action="" method="get">
                     <h4>Type:</h4>
-                    <label><input name="toiletType" type="radio" value="" />Indoor </label>
+                    <label><input name="toiletType" type="checkbox" value=""  onclick="toggleLayer(0);"/>Indoor </label>
                     <br>
-                    <label><input name="toiletType" type="radio" value="" />Outdoor </label>
+                    <label><input name="toiletType" type="checkbox" value=""  onclick="toggleLayer(1);"/>Outdoor </label>
                 </form>  
                 <br/>
-                <form name="gender" action="" method="get">    
-                    <h4>Gender:</h4>
-                    <label><input name="toiletGender" type="radio" value="" />Male </label>
-                    <br>
-                    <label><input name="toiletGender" type="radio" value="" />Female </label>
-                    <br>
-                    <label><input name="toiletGender" type="radio" value="" />Both </label>
-                    <br>
-                </form>  
-                </br>
                 <form name="facilities" action="" method="get">   
                     <h4>Other Facilities:</h4>
-                    <label><input name="toiletFacilities" type="checkbox" value="" />Baby </label>
+                    <label><input name="toiletFacilities" type="checkbox" value="" onclick="toggleLayer(2);"/>Baby </label>
                     <br>
-					<label><input name="toiletFacilities" type="checkbox" value="" />Disabilities </label>
+					<label><input name="toiletFacilities" type="checkbox" value="" onclick="toggleLayer(3);"/>Disabilities </label>
                <br>
                 </form>
                 <br/>    
-                <form name="Description" action="" method="get">
-                   	<h4>Location Description:</h4>
-                    <input name="toiletDescription" type="text" value="" /><br/>
-				</form>
+                <form name="user-added" action="" method="get">
+                    <h4>User-added:</h4>
+                    <label><input name="User-added" type="checkbox" value=""  />User-added</label>
+                    <br>
+                </form>  
                 <br>
                 
-                <!-- add button -->   
-                <div class="buttons">
-                 <button class="raise">add</button>                      
-    			 <button id="closeRight" class="raise">Close</button>
-    			 </div>
+                <!-- close button -->   
+               
+    			 <button id="closeRight" class="round-button fa fa-times fa-2x"></button>
   </div>
 			
 		</nav>
         
         <!-- script for add toilet right list-->
-        <script src="classie.js"></script>
+        <script src="js/classie.js"></script>
 		<script>
 			var menuRight = document.getElementById( 'cbp-spmenu' ),
 

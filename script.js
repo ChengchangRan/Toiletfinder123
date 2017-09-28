@@ -5,7 +5,11 @@ var infos = Array();
 var lat = -37.8136;
 var lng = 144.9631;
 var layers = [];
-
+var markerMe;
+var infowindow;
+var locationMe = new google.maps.LatLng(lat,lng);
+var directionsService = new google.maps.DirectionsService;
+var directionsDisplay = new google.maps.DirectionsRenderer;
 
 //Initialize the google map canvas
 function initialize() 
@@ -85,8 +89,14 @@ function initialize()
           map.fitBounds(bounds);
         });
     //Public data kept in .kml files in google cloud storage
-   layers [0] = new google.maps.KmlLayer('https://storage.googleapis.com/toiletfinder123.appspot.com/Public_toilets.kml',
-    {preserveViewport: false, suppressInfoWindows: false});
+    layers [0] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/indoor.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [1] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/outdoor.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [2] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/baby.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [3] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/accessible.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
   for (var i = 0; i < layers.length; i++) 
   {
           layers[i].setMap(null);
@@ -100,13 +110,55 @@ function toggleLayer(i)
 {
   if (layers[i].getMap() === null) 
   {
+    
     layers[i].setMap(map);
+    layers[i].addListener('click', function(kmlEvent){
+    	var text = kmlEvent.featureData.description;
+    	var contentString = '<div id="content">'+
+        '<h5 >'+text+'</h5>'+
+        '<div style="float:right">'+
+        '<a href="javascript:go'+kmlEvent.latLng+';">Go here</a>'+
+        '</div>'+
+        '</div>';
+    	if (infowindow!=null) {
+    		infowindow.close();
+	}
+	infowindow = new google.maps.InfoWindow({
+	      content: contentString,
+	      disableAutoPan: true,
+	      position: kmlEvent.latLng,
+	 });
+	    infowindow.open(map, this);
+    });
   }
   else 
   {
     layers[i].setMap(null);
   }
 }
+
+function go(Lat,Lng){
+
+    directionsDisplay.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsDisplay,Lat,Lng);
+	
+}
+function calculateAndDisplayRoute(directionsService, directionsDisplay,Lat,Lng) {
+    directionsService.route({
+      origin: locationMe,
+      destination: new google.maps.LatLng(Lat,Lng),
+      travelMode: 'WALKING'
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+    	if (infowindow!=null) {
+    		infowindow.close();
+		}
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
 
 
 //Function for the locateMe button
@@ -117,13 +169,21 @@ function locateMe()
       lat = position.coords.latitude;
       lng = position.coords.longitude;
       var pos = new google.maps.LatLng(lat, lng);
-
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'You are here!'
-      });
-
+      locationMe = pos;
+      ;
+      // add marker    
+      if(typeof(markerMe)=="undefined"){
+    	  markerMe = new google.maps.Marker({
+    		  position: pos,
+    		  map: map,
+    		  title:"You are here!"
+    	  });
+    	  markerMe.setAnimation(google.maps.Animation.BOUNCE);
+      }else{
+    	  markerMe.setAnimation(google.maps.Animation.BOUNCE);
+    	  
+      }
+	    
       map.setCenter(pos);
     }, function() {
       handleNoGeolocation(true);

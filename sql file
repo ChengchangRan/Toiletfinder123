@@ -1,0 +1,21 @@
+gcloud sql connect toilets --user=root
+
+use toiletsinfo
+
+drop database ...
+drop table ...
+
+
+CREATE TABLE `markers` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `type` VARCHAR( 60 ) NOT NULL ,
+  `gender` VARCHAR( 60 ) NOT NULL ,
+  `baby` VARCHAR( 30 ) NOT NULL ,
+  `disable` VARCHAR( 30 ) NOT NULL ,
+  `lat` FLOAT( 10, 6 ) NOT NULL ,
+  `lng` FLOAT( 10, 6 ) NOT NULL ,
+  `description` VARCHAR( 80 ) NOT NULL
+);
+
+
+INSERT INTO `markers` (`type`, `gender`, `baby`, `disable`, `lat`, `lng`, `description`) VALUES ('outdoor', 'both', 'no', 'yes', '-37.808201', '144.960236', 'the cross of Franklin St and Elizabeth St');
