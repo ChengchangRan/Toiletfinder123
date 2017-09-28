@@ -261,3 +261,22 @@ height: 100%;
   padding: 0 0;
 }
 
+
+.round-button {
+    display:block;
+    width:40px;
+    height:40px;
+    line-height:40px;
+    border: 2px solid #f5f5f5;
+    border-radius: 50%;
+    color:#f5f5f5;
+    text-align:center;
+    text-decoration:none;
+    background-color: deepskyblue;
+    box-shadow: 0 0 3px gray;
+    font-size:20px;
+    font-weight:bold;
+}
+.round-button:hover {
+    background-color: dodgerblue;
+}

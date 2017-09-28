@@ -1,8 +1,6 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
+
+
 <html>
 
   <header>
@@ -13,18 +11,19 @@
 
     <title>Melbourne Toilet Finder</title>
     
-    <link href="main.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
     <!-- Use fontawesome-->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
+    <link rel="shortcut icon" type="image/x-icon" href="//www.google.com/images/icons/product/sites-16.ico" />
     <!-- add toilet right list css-->
-    <link rel="stylesheet" type="text/css" href="component.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300">
     <link href="//cdn.muicss.com/mui-latest/css/mui.min.css" rel="stylesheet" type="text/css" />
     
-    <link rel="stylesheet" href="modal-box.min.css" media="screen">
-<link rel="stylesheet" href="custom.min.css" media="screen">
+    <link rel="stylesheet" href="css/modal-box.min.css" media="screen">
+<link rel="stylesheet" href="css/custom.min.css" media="screen">
 <script src="//cdn.muicss.com/mui-latest/js/mui.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 
@@ -32,12 +31,12 @@
 
 	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyABisuaAu1IDWBncs_GHZ5MdLVsfchAVxY&language=en"></script>
 
-	<script src="script.js"></script>
-	<script src="sidescript.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/sidescript.js"></script>
 	
 		
 	<!-- add toilet right list script -->
-	<script src="modernizr.custom.js"></script>
+	<script src="js/modernizr.custom.js"></script>
 	
 	
 <script asyn src="https://ajax.googleapis.com/ajax/libs/webfont/1.6/webfont.js"></script>
@@ -79,7 +78,7 @@ WebFont.load({
                     </a>
         </li>
         <li>
-          <a href="#" onclick="toggleLayer(0);"><strong>
+          <a href="#" id="showRight"><strong>
                        <i class="fa fa-search fa-2x"></i>
                         <span class="nav-text">
                             Find toilet
@@ -87,7 +86,7 @@ WebFont.load({
                     </a>
         </li>
         <li>
-          <a href="#" id="showRight"><strong>
+          <a href="#" onclick="adding();"><strong>
                        <i class="fa fa-plus-square fa-2x"></i>
                         <span class="nav-text">
                            Add toilet
@@ -127,15 +126,16 @@ WebFont.load({
 		<div class="inner-dialog">
 
 
-			<h2>About us</h2>
+			<strong>About us</strong>
 
 			<p>Toiletfinder is a web based, mobile friendly application.</p>
 			<p>As the name mentioned, toiletfinder offers you the best Convenience to help you find nearst toilet!</p>
 
-			<h2>How to use</h2>
+			<strong>How to use</strong>
 			<p>There are several menu button on the left side, each got their own function, and a place search box inside the map.</p>
 			<strong>Locate me</strong><p>Get your current location.(This may need your permission)</p>
 			<strong>Find toilet</strong><p>Load already-known toilet data within Melbourne CBD.</p>
+			<strong>Show me the path</strong><p>Show you the walking path to the location you choose.</p>
 			<strong>Add toilet</strong><p>Tell us the toilets that we don't know, and add it to the map.</p>
 			<strong>About</strong><p>User guide and other information.</p>
 			
@@ -158,65 +158,64 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 </script>
 
 
-<!--add toilet right list -->
+<!--find toilet right list -->
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu">
-			<h2>Add a Toilet</h2>
+			<h2>Find Toilet</h2>
 			<div>
                 <form name="type" action="" method="get">
                     <h4>Type:</h4>
-                    <label><input name="toiletType" type="radio" value="" />Indoor </label>
+                    <label><input name="toiletType" type="checkbox" value=""  onclick="toggleLayer(0);"/>Indoor </label>
                     <br>
-                    <label><input name="toiletType" type="radio" value="" />Outdoor </label>
+                    <label><input name="toiletType" type="checkbox" value=""  onclick="toggleLayer(1);"/>Outdoor </label>
                 </form>  
                 <br/>
-                <form name="gender" action="" method="get">    
-                    <h4>Gender:</h4>
-                    <label><input name="toiletGender" type="radio" value="" />Male </label>
-                    <br>
-                    <label><input name="toiletGender" type="radio" value="" />Female </label>
-                    <br>
-                    <label><input name="toiletGender" type="radio" value="" />Both </label>
-                    <br>
-                </form>  
-                </br>
                 <form name="facilities" action="" method="get">   
                     <h4>Other Facilities:</h4>
-                    <label><input name="toiletFacilities" type="checkbox" value="" />Baby </label>
+                    <label><input name="toiletFacilities" type="checkbox" value="" onclick="toggleLayer(2);"/>Baby </label>
                     <br>
-					<label><input name="toiletFacilities" type="checkbox" value="" />Disabilities </label>
+					<label><input name="toiletFacilities" type="checkbox" value="" onclick="toggleLayer(3);"/>Disabilities </label>
                <br>
                 </form>
                 <br/>    
-                <form name="Description" action="" method="get">
-                   	<h4>Location Description:</h4>
-                    <input name="toiletDescription" type="text" value="" /><br/>
-				</form>
+                <form name="user-added" action="" method="get">
+                    <h4>User-added:</h4>
+                    <label><input name="User-added" type="checkbox" value=""  />User-added</label>
+                    <br>
+                </form>  
                 <br>
                 
-                <!-- add button -->      
-                      <input type="submit" on-click="add()" value="Add"/>  
-			</div>
+                <!-- close button -->   
+               
+    			 <button id="closeRight" class="round-button fa fa-times fa-2x"></button>
+    			 <button  onclick="window.location.href='index.php'" class="round-button fa fa-refresh fa-2x"></button>
+  </div>
+			
 		</nav>
         
         <!-- script for add toilet right list-->
-        <script src="classie.js"></script>
+        <script src="js/classie.js"></script>
 		<script>
 			var menuRight = document.getElementById( 'cbp-spmenu' ),
 
-				showRight = document.getElementById( 'showRight' ),
-				
+				showRight = document.getElementById( 'showRight' ),	
 
+				closeRight = document.getElementById( 'closeRight' ),	
 				body = document.body;
 
 
+			closeRight.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( menuRight, 'cbp-spmenu-open' );
+				disableOther( 'closeRight' );
+				
+			};
 			showRight.onclick = function() {
 				classie.toggle( this, 'active' );
 				classie.toggle( menuRight, 'cbp-spmenu-open' );
 				disableOther( 'showRight' );
 				
 			};
-
-
+			
 			function disableOther( button ) {
 		
 				if( button !== 'showRight' ) {
@@ -224,8 +223,44 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 				}
 				
 			}
+			
+			function disableOther( close ) {
+		
+				if( close !== 'closeRight' ) {
+					classie.toggle( closeRight, 'disabled' );
+				}
+				
+			}
 		</script>
-
+		
+		
+			  <div id="map"></div>
+	  <div id="addform">
+      <table>
+      <tr><td>Type:</td> <td><select id='type'> +
+                 <option value='outdoor' SELECTED>outdoor</option>
+                 <option value='indoor'>indoor</option>
+                 </select> </td></tr>
+	  <tr><td>Gender:</td> <td><select id='gender'> +
+                 <option value='both' SELECTED>both</option>
+                 <option value='male'>male</option>
+				 <option value='female'>Female</option>
+                 </select> </td></tr>
+	  <tr><td>Baby Facility:</td> <td><select id='baby'> +
+                 <option value='no' SELECTED>no</option>
+                 <option value='yes'>yes</option>
+                 </select> </td></tr>		
+	  <tr><td>Disability Facility:</td> <td><select id='disable'> +
+                 <option value='no' SELECTED>no</option>
+                 <option value='yes'>yes</option>
+                 </select> </td></tr>
+	  <tr><td>Description:</td> <td><input type='text' id='description'/> </td> </tr>
+	  
+                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+      </table>
+	  </div>
+	 	
+	 <div id="message">Location saved</div>
 
 
  </body>
