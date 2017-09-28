@@ -11,6 +11,9 @@ var locationMe = new google.maps.LatLng(lat,lng);
 var directionsService = new google.maps.DirectionsService;
 var directionsDisplay = new google.maps.DirectionsRenderer;
 
+var marker;
+var messagewindow;
+
 //Initialize the google map canvas
 function initialize() 
 {
@@ -89,7 +92,13 @@ function initialize()
           map.fitBounds(bounds);
         });
     //Public data kept in .kml files in google cloud storage
-   layers [0] = new google.maps.KmlLayer('https://storage.googleapis.com/toiletfinder123.appspot.com/Public_toilets.kml',
+    layers [0] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/indoor.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [1] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/outdoor.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [2] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/baby.kmz',
+    {preserveViewport: false, suppressInfoWindows: true});
+	layers [3] = new google.maps.KmlLayer('https://sites.google.com/site/toiletfinder666/kmz/accessible.kmz',
     {preserveViewport: false, suppressInfoWindows: true});
   for (var i = 0; i < layers.length; i++) 
   {
@@ -164,11 +173,7 @@ function locateMe()
       lng = position.coords.longitude;
       var pos = new google.maps.LatLng(lat, lng);
       locationMe = pos;
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'You are here!'
-      });
+      ;
       // add marker    
       if(typeof(markerMe)=="undefined"){
     	  markerMe = new google.maps.Marker({
@@ -237,6 +242,74 @@ function popupOpenClose() {
 		$(popup).hide();
 	});
 }
+
+
+      function adding() {
+
+        infowindow = new google.maps.InfoWindow({
+          content: document.getElementById('addform')
+        });
+
+        messagewindow = new google.maps.InfoWindow({
+          content: document.getElementById('message')
+        });
+
+        google.maps.event.addListener(map, 'click', function(event) {
+          marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map
+          });
+
+
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map, marker);
+          });
+        });
+      }
+
+      function saveData() {
+
+        var type = document.getElementById('type').value;
+		var gender = document.getElementById('gender').value;
+		var baby = document.getElementById('baby').value;
+		var disable = document.getElementById('disable').value;
+		var description = document.getElementById('description').value;
+		
+        var latlng = marker.getPosition();
+        var url = '#?type=' + type + '&gender=' + gender +
+                  '&baby=' + baby + '&disable=' + disable + '&lat=' + latlng.lat() + '&lng=' + latlng.lng()+ '&description=' + description;
+
+        downloadUrl(url, function(data, responseCode) {
+
+          if (responseCode == 200 && data.length <= 1) {
+            infowindow.close();
+            messagewindow.open(map, marker);
+          }
+        });
+      }
+
+      function downloadUrl(url, callback) {
+        var request = window.ActiveXObject ?
+            new ActiveXObject('Microsoft.XMLHTTP') :
+            new XMLHttpRequest;
+
+        request.onreadystatechange = function() {
+          if (request.readyState == 4) {
+            request.onreadystatechange = doNothing;
+            callback(request.responseText, request.status);
+          }
+        };
+
+        request.open('GET', url, true);
+        request.send(null);
+      }
+
+      function doNothing () {
+      }
+
+
+
+
 
 //Begin initialize() function on page load
 google.maps.event.addDomListener(window, 'load', initialize);
