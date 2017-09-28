@@ -184,6 +184,8 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
                 <!-- close button -->   
                
     			 <button id="closeRight" class="round-button fa fa-times fa-2x"></button>
+    			 <button id="clear" class="round-button fa fa-refresh fa-2x" onclick="window.location.href='index.php'"></button>
+    			 
   </div>
 			
 		</nav>
