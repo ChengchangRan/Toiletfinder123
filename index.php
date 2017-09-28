@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+
 <html>
 
   <header>
@@ -124,15 +126,16 @@ WebFont.load({
 		<div class="inner-dialog">
 
 
-			<h2>About us</h2>
+			<strong>About us</strong>
 
 			<p>Toiletfinder is a web based, mobile friendly application.</p>
 			<p>As the name mentioned, toiletfinder offers you the best Convenience to help you find nearst toilet!</p>
 
-			<h2>How to use</h2>
+			<strong>How to use</strong>
 			<p>There are several menu button on the left side, each got their own function, and a place search box inside the map.</p>
 			<strong>Locate me</strong><p>Get your current location.(This may need your permission)</p>
 			<strong>Find toilet</strong><p>Load already-known toilet data within Melbourne CBD.</p>
+			<strong>Show me the path</strong><p>Show you the walking path to the location you choose.</p>
 			<strong>Add toilet</strong><p>Tell us the toilets that we don't know, and add it to the map.</p>
 			<strong>About</strong><p>User guide and other information.</p>
 			
@@ -184,8 +187,7 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
                 <!-- close button -->   
                
     			 <button id="closeRight" class="round-button fa fa-times fa-2x"></button>
-    			 <button id="clear" class="round-button fa fa-refresh fa-2x" onclick="window.location.href='index.php'"></button>
-    			 
+    			 <button  onclick="window.location.href='index.php'" class="round-button fa fa-refresh fa-2x"></button>
   </div>
 			
 		</nav>
@@ -232,7 +234,7 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 		</script>
 		
 		
-	  <div id="map"></div>
+			  <div id="map"></div>
 	  <div id="addform">
       <table>
       <tr><td>Type:</td> <td><select id='type'> +
@@ -259,7 +261,6 @@ var addEvent=function(a,b,d){if(a.addEventListener) a.addEventListener(b,d,false
 	  </div>
 	 	
 	 <div id="message">Location saved</div>
-		
 
 
  </body>
