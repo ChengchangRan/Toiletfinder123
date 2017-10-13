@@ -14,37 +14,6 @@ var directionsDisplay = new google.maps.DirectionsRenderer;
 var marker;
 var messagewindow;
 
-<html>
-<body>
-
-<h2>SEC Assignment Register</h2>
-
-
-<form action="../server/register.php" method="POST">
-
-Username: <input type="text" name="username" id="username">
-<br/><br/>
-Password: <input type="password" name="password" id="password">
-<br/><br/>
-<button type="submit" onclick="hashPassword()">Submit to register</button>
-</form>
-
-
-<script src="js/sha256.js"></script>
-<script type="text/javascript">
-
-		function hashPassword() {
-			var input = document.getElementById('password').value;
-			var hash = SHA256.hash(input);
-			
-			document.getElementById("password").innerHTML = hash;
-			document.getElementById("password").value = hash;
-		}
-</script>
-
-</body>
-</html>
-
 //Initialize the google map canvas
 function initialize() 
 {
